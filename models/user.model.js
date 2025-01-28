@@ -27,6 +27,10 @@ const User = {
 
         db.query(query, params, callback);
     },
+    delete: (id, callback) => {
+        const query = 'DELETE FROM users WHERE id = ?';
+        db.query(query, [id], callback);
+    },
 };
 
 module.exports = User;

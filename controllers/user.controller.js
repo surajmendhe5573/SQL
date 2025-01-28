@@ -98,5 +98,22 @@ const updateUser = async (req, res) => {
     });
 };
 
+const deleteUser = (req, res) => {
+    const { id } = req.params;
 
-module.exports = { signup, login, getAllUsers, updateUser };
+    User.delete(id, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Database error' });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ message: 'User deleted successfully' });
+    });
+};
+
+
+module.exports = { signup, login, getAllUsers, updateUser, deleteUser };
