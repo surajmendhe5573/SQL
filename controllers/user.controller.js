@@ -64,4 +64,39 @@ const getAllUsers = (req, res) => {
     });
 };
 
-module.exports = { signup, login, getAllUsers };
+const updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
+
+    // Check if the email is already taken by another user
+    User.findByEmail(email, async (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Database error' });
+        }
+
+        // If email exists and does not belong to the current user
+        if (results.length > 0 && results[0].id != id) {
+            return res.status(400).json({ message: 'This email is already taken by another user' });
+        }
+
+        let hashedPassword = null;
+        if (password) {
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+
+        User.update(id, name, email, hashedPassword, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ message: 'Database error' });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+            res.json({ message: 'User updated successfully' });
+        });
+    });
+};
+
+
+module.exports = { signup, login, getAllUsers, updateUser };

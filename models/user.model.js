@@ -12,7 +12,21 @@ const User = {
     findAll: (callback) => {
         const query = 'SELECT id, name, email, created_at FROM users';
         db.query(query, callback);
-    }
+    },
+    update: (id, name, email, hashedPassword, callback) => {
+        let query;
+        let params;
+
+        if (hashedPassword) {
+            query = 'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?';
+            params = [name, email, hashedPassword, id];
+        } else {
+            query = 'UPDATE users SET name = ?, email = ? WHERE id = ?';
+            params = [name, email, id];
+        }
+
+        db.query(query, params, callback);
+    },
 };
 
 module.exports = User;
