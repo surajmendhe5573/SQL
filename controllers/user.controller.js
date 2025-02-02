@@ -104,4 +104,5 @@ const deleteUser = async (req, res) => {
     }
 };
 
+
 module.exports = { signUp, login, getAllUsers, updateUser, deleteUser };
