@@ -1,19 +1,22 @@
 const db = require('../config/db');
 
 const User = {
-    findByEmail: (email, callback) => {
+    findByEmail: async (email) => {
         const query = 'SELECT * FROM users WHERE email = ?';
-        db.query(query, [email], callback);
+        const [results] = await db.query(query, [email]);
+        return results;
     },
-    create: (name, email, hashedPassword, callback) => {
+    create: async (name, email, hashedPassword) => {
         const query = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-        db.query(query, [name, email, hashedPassword], callback);
+        const [result] = await db.query(query, [name, email, hashedPassword]);
+        return result;
     },
-    findAll: (callback) => {
+    findAll: async () => {
         const query = 'SELECT id, name, email, created_at FROM users';
-        db.query(query, callback);
+        const [results] = await db.query(query);
+        return results;
     },
-    update: (id, name, email, hashedPassword, callback) => {
+    update: async (id, name, email, hashedPassword) => {
         let query;
         let params;
 
@@ -25,11 +28,13 @@ const User = {
             params = [name, email, id];
         }
 
-        db.query(query, params, callback);
+        const [result] = await db.query(query, params);
+        return result;
     },
-    delete: (id, callback) => {
+    delete: async (id) => {
         const query = 'DELETE FROM users WHERE id = ?';
-        db.query(query, [id], callback);
+        const [result] = await db.query(query, [id]);
+        return result;
     },
 };
 
