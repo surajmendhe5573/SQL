@@ -68,6 +68,12 @@ const updateUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
+
+        const user = await User.findById(id); 
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
         const users = await User.findByEmail(email);
         if (users.length > 0 && users[0].id != id) {
             return res.status(400).json({ message: 'This email is already taken by another user' });

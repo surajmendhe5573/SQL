@@ -31,6 +31,11 @@ const User = {
         const [result] = await db.query(query, params);
         return result;
     },
+    findById: async (id) => {
+        const query = 'SELECT * FROM users WHERE id = ?';
+        const [results] = await db.query(query, [id]);
+        return results[0]; 
+    },    
     delete: async (id) => {
         const query = 'DELETE FROM users WHERE id = ?';
         const [result] = await db.query(query, [id]);
