@@ -90,15 +90,15 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-    const { id } = req.params;
-
     try {
-        const result = await User.delete(id);
-        if (result.affectedRows === 0) {
+        const {id} = req.params;
+
+        const deleteUser = await User.delete(id);
+        if (deleteUser.affectedRows === 0) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        res.json({ message: 'User deleted successfully' });
+        res.json({ message: 'User deleted successfully'});
     } catch (err) {
         res.status(500).json({ message: 'Database error' });
     }
