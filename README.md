@@ -1,1 +1,1 @@
-##  MySQx
+##  MySQL
