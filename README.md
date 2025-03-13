@@ -1,1 +1,1 @@
-##  MySQL..s
+##  MySQL
